@@ -62,6 +62,16 @@ SELECT
   LogId
 FROM `casestudy-bellabeat-509507.fitabase_data_1.weight_log1`;
 
+-- Another table
+CREATE OR REPLACE TABLE `casestudy-bellabeat-509507.fitabase_data_1.minute_sleep1` AS
+
+SELECT 
+  Id,
+  DATE(PARSE_DATETIME('%m/%d/%Y %I:%M:%S %p', date)) AS date,
+  value,
+  logID
+FROM `casestudy-bellabeat-509507.fitabase_data_1.minute_sleep1`
+
 --====================================================================
 --4.CHECK FOR NULL VALUES
 --====================================================================
@@ -128,6 +138,19 @@ SELECT
 FROM `casestudy-bellabeat-509507.fitabase_data_2.weight_log2`;
 --11 unique data for dataset1 and 8 unique Id for dataset2
 
+--CHECKING SLEEPING DATA
+SELECT   
+  COUNT(DISTINCT Id)
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_1.day_sleep1` 
+
+UNION ALL 
+
+SELECT   
+  COUNT(DISTINCT Id)
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_2.day_sleep2`; 
+--23 unique data for dataset1 and 24 unique Id for dataset2
 
 --====================================================================
 --6.MERGE THE DATA 
@@ -184,5 +207,102 @@ FROM `casestudy-bellabeat-509507.fitabase_data_combined.dailyactivity_weightlog_
 WHERE LENGTH(CAST(Id AS STRING)) != 10
 
 --Checked all ID number, each Id has 10 numbers long. 
+
+
+--====================================================================
+--8.DATA VALIDATION 
+--==================================================================== 
+--Compared TotalDistance with the sum of activity-intensity distance fields.
+
+SELECT 
+  TotalDistance, 
+  (VeryActiveDistance+ModeratelyActiveDistance+LightActiveDistance+SedentaryActiveDistance) AS sum_of_activeintensity_distance,
+  TrackerDistance,
+  LoggedActivitiesDistance
+
+FROM `casestudy-bellabeat-509507.fitabase_data_combined.dailyactivity_weightlog_combined` 
+WHERE LoggedActivitiesDistance != 0
+--The values were generally similar, with small differences observed. TotalDistance was therefore retained as the primary overall distance measure.
+
+
+--====================================================================
+--9.INTEGRATING SLEEP DATA 
+--==================================================================== 
+--Aggregating minute-level sleep data into daily sleep metric.
+
+CREATE TABLE `casestudy-bellabeat-509507.fitabase_data_1.day_sleep1` AS
+
+SELECT 
+  Id,
+  sleepdate AS SleepDate,
+  NULL as TotalSleepRecords,
+  COUNTIF(value=1) AS TotalMinutesAsleep,
+  COUNT(*) AS TotalTimeInBed
+FROM `casestudy-bellabeat-509507.fitabase_data_1.minute_sleep1`
+GROUP BY Id, sleepdate
+ORDER BY Id, sleepdate;
+
+--MERGE SLEEP DATA 
+CREATE TABLE `casestudy-bellabeat-509507.fitabase_data_combined.daysleep_combined` AS
+SELECT   
+  Id, 
+  SleepDate,
+  TotalSleepRecords, 
+  TotalMinutesAsleep,
+  TotalTimeInBed
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_1.day_sleep1`
+
+UNION ALL 
+
+SELECT   
+  CAST(Id AS STRING) AS Id,
+  SleepDate,
+  TotalSleepRecords, 
+  TotalMinutesAsleep,
+  TotalTimeInBed
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_2.day_sleep2`; 
+
+--JOIN THE SLEEP DATA TO MAIN TABLE 
+CREATE TABLE `casestudy-bellabeat-509507.fitabase_data_combined.combined_data_raw` AS
+
+SELECT dwc.*, ds.TotalMinutesAsleep,ds.TotalTimeInBed
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.dailyactivity_weightlog_combined` AS dwc 
+LEFT JOIN 
+  `casestudy-bellabeat-509507.fitabase_data_combined.daysleep_combined` AS ds
+ON CAST(dwc.Id AS string)=ds.Id AND dwc.ActivityDate=ds.SleepDate
+
+ORDER BY dwc.Id, dwc.ActivityDate
+
+--====================================================================
+--9.CREATE CLEANED DATASET
+--==================================================================== 
+CREATE TABLE `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` AS
+
+SELECT 
+  Id, 
+  ActivityDate, 
+  FORMAT_DATE('%A', ActivityDate) AS day_name,
+  TotalSteps,
+  TotalDistance,
+  VeryActiveDistance,
+  ModeratelyActiveDistance,
+  LightActiveDistance,
+  SedentaryActiveDistance, 
+  (VeryActiveMinutes+FairlyActiveMinutes+LightlyActiveMinutes+SedentaryMinutes) AS TotalActiveMinutes,
+  VeryActiveMinutes,
+  FairlyActiveMinutes,
+  LightlyActiveMinutes,
+  SedentaryMinutes,
+  TotalMinutesAsleep,
+  TotalTimeInBed,
+  Calories,
+  WeightKg,
+  BMI
+  
+FROM `casestudy-bellabeat-509507.fitabase_data_combined.combined_data_raw`
+
 
 
