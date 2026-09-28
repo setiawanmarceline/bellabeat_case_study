@@ -304,5 +304,133 @@ SELECT
   
 FROM `casestudy-bellabeat-509507.fitabase_data_combined.combined_data_raw`
 
+--====================================================================
+--10.UNPIVOT DATA
+--==================================================================== 
+
+-- Transform Data to Long Data (distance level)
+SELECT 
+  Id, 
+  ActivityDate,
+  day_name,
+  MOD(EXTRACT(DAYOFWEEK FROM ActivityDate)+5,7)+1 AS day_number,
+  activity_level,
+  distance_km
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` 
+
+UNPIVOT (
+  distance_km FOR activity_level IN (
+    VeryActiveDistance AS 'Very Active',
+    ModeratelyActiveDistance AS 'Moderately Active',
+    LightActiveDistance AS 'Light Active',
+    SedentaryActiveDistance AS 'Sedentary Active'
+  )
+)
+
+ORDER BY Id, ActivityDate;
+
+-- Transform Data to Long Data (minutes level)
+SELECT 
+  Id, 
+  ActivityDate,
+  day_name,
+  MOD(EXTRACT(DAYOFWEEK FROM ActivityDate)+5,7)+1 AS day_number,
+  activity_level,
+  minutes
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` 
+
+UNPIVOT (
+  minutes FOR activity_level IN (
+    VeryActiveMinutes AS 'Very Active',
+    FairlyActiveMinutes AS 'Moderately Active',
+    LightlyActiveMinutes AS 'Light Active',
+    SedentaryMinutes AS 'Sedentary Active'
+  )
+)
+
+ORDER BY Id, ActivityDate;
+
+
+--====================================================================
+--11.DATA ANALYSIS 
+--==================================================================== 
+
+-- Count how many samples are in analysis 
+SELECT 
+  COUNT(DISTINCT(Id))
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` ;
+--35 Id Recorded
+
+--==================================================================== 
+-- Find the avarage of Distance by each Intensities in Each Day 
+SELECT 
+  MOD(EXTRACT(DAYOFWEEK FROM ActivityDate)+5,7)+1 AS day_number,
+  AVG(VeryActiveDistance) AS avg_veryactive_distance,
+  AVG(ModeratelyActiveDistance) AS avg_moderatelyactive_distance,
+  AVG(LightActiveDistance) AS avg_lightactive_distance,
+  AVG(SedentaryActiveDistance) AS avg_sedentaryactive_distance,
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` 
+
+GROUP BY day_number
+ORDER BY day_number;
+--Light Active Distance was generally the largest among the Active Distance 
+--There was no strong trend showing the difference of the distance between weekend and weekday 
+
+--==================================================================== 
+-- Find the avarage of time spend for each activity's intensity in Each Day 
+SELECT 
+  MOD(EXTRACT(DAYOFWEEK FROM ActivityDate)+5,7)+1 AS day_number,
+  AVG(VeryActiveMinutes) AS avg_veryactive_minutes,
+  AVG(FairlyActiveMinutes) AS avg_moderatelyactive_minutes,
+  AVG(LightlyActiveMinutes) AS avg_lightactive_minutes,
+  AVG(SedentaryMinutes) AS avg_sedentaryactive_minutes,
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` 
+
+GROUP BY day_number
+ORDER BY day_number;
+-- People doing most of their time doing sedentary activity every day. 
+
+--==================================================================== 
+-- Find the avarage of time spend for each activity's intensity for each users 
+SELECT 
+  Id,
+  AVG(VeryActiveMinutes) AS avg_veryactive_minutes,
+  AVG(FairlyActiveMinutes) AS avg_moderatelyactive_minutes,
+  AVG(LightlyActiveMinutes) AS avg_lightactive_minutes,
+  AVG(SedentaryMinutes) AS avg_sedentaryactive_minutes,
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` 
+
+GROUP BY Id;
+
+--==================================================================== 
+-- Find the avarage of Total Steps and Distance for each users 
+SELECT 
+  Id,
+  AVG(TotalSteps) AS avg_total_steps,
+  AVG(TotalDistance) AS avg_total_distance
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` 
+
+GROUP BY Id
+ORDER BY avg_total_steps DESC;
+
+--==================================================================== 
+-- Find the correlation factor between steps and distance 
+SELECT 
+  CORR(TotalSteps,TotalDistance) AS steps_vs_totaldistance,
+  CORR(TotalSteps, VeryActiveDistance) AS steps_vs_veryactive,
+  CORR(TotalSteps, ModeratelyActiveDistance) AS steps_vs_moderatelyactive,
+  CORR(TotalSteps, LightActiveDistance) AS steps_vs_lightactive,
+  CORR(TotalSteps, SedentaryActiveDistance) AS steps_vs_sedentaryactive,
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` ;
+--Found from the data that light activity distance have the strongest positive relationship with the total step compare with other intensity. 
+
 
 
