@@ -433,4 +433,46 @@ FROM
 --Found from the data that light activity distance have the strongest positive relationship with the total step compare with other intensity. 
 
 
+--====================================================================
+--12.CREATE TEMPORARY TABLE 
+--==================================================================== 
+-- for unpivot correlation data to be used in visualization 
+WITH correlation AS
+(
+SELECT 
+  CORR(TotalSteps,TotalDistance) AS steps_vs_totaldistance,
+  CORR(TotalSteps, VeryActiveDistance) AS steps_vs_veryactive,
+  CORR(TotalSteps, ModeratelyActiveDistance) AS steps_vs_moderatelyactive,
+  CORR(TotalSteps, LightActiveDistance) AS steps_vs_lightactive,
+  CORR(TotalSteps, SedentaryActiveDistance) AS steps_vs_sedentaryactive,
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data`)
+
+SELECT relationship, correlation
+FROM correlation
+UNPIVOT (
+  correlation FOR relationship IN (
+    steps_vs_totaldistance,
+    steps_vs_veryactive,
+    steps_vs_moderatelyactive,
+    steps_vs_lightactive,
+    steps_vs_sedentaryactive
+  )
+);
+
+-- steps vs sedentary minutes
+WITH correlation AS
+(
+SELECT 
+  CORR(TotalSteps,SedentaryMinutes) AS steps_vs_sedentaryminutes,
+FROM 
+  `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data`)
+
+SELECT relationship, correlation
+FROM correlation
+UNPIVOT (
+  correlation FOR relationship IN (
+    steps_vs_sedentaryminutes
+  )
+);
 
