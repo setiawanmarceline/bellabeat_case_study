@@ -198,7 +198,7 @@ ON CAST(da.Id AS string)=wl.Id AND da.ActivityDate=wl.Date
 ORDER BY da.Id, da.ActivityDate
 
 --====================================================================
---7.CHECKING ID NUMBER
+--8.CHECKING ID NUMBER
 --====================================================================
 SELECT 
   Id,
@@ -210,7 +210,7 @@ WHERE LENGTH(CAST(Id AS STRING)) != 10
 
 
 --====================================================================
---8.DATA VALIDATION 
+--9.DATA VALIDATION 
 --==================================================================== 
 --Compared TotalDistance with the sum of activity-intensity distance fields.
 
@@ -226,7 +226,7 @@ WHERE LoggedActivitiesDistance != 0
 
 
 --====================================================================
---9.INTEGRATING SLEEP DATA 
+--10.INTEGRATING SLEEP DATA 
 --==================================================================== 
 --Aggregating minute-level sleep data into daily sleep metric.
 
@@ -277,7 +277,7 @@ ON CAST(dwc.Id AS string)=ds.Id AND dwc.ActivityDate=ds.SleepDate
 ORDER BY dwc.Id, dwc.ActivityDate
 
 --====================================================================
---9.CREATE CLEANED DATASET
+--11.CREATE CLEANED DATASET
 --==================================================================== 
 CREATE TABLE `casestudy-bellabeat-509507.fitabase_data_combined.fitabase_cleaned_data` AS
 
@@ -305,7 +305,7 @@ SELECT
 FROM `casestudy-bellabeat-509507.fitabase_data_combined.combined_data_raw`
 
 --====================================================================
---10.UNPIVOT DATA
+--12.UNPIVOT DATA
 --==================================================================== 
 
 -- Transform Data to Long Data (distance level)
@@ -354,7 +354,7 @@ ORDER BY Id, ActivityDate;
 
 
 --====================================================================
---11.DATA ANALYSIS 
+--13.DATA ANALYSIS 
 --==================================================================== 
 
 -- Count how many samples are in analysis 
@@ -434,7 +434,7 @@ FROM
 
 
 --====================================================================
---12.CREATE TEMPORARY TABLE 
+--14.CREATE TEMPORARY TABLE 
 --==================================================================== 
 -- for unpivot correlation data to be used in visualization 
 WITH correlation AS
