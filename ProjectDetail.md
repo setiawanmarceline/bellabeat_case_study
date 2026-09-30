@@ -40,6 +40,7 @@ The objective of this analysis is to:
 
 ## 📊 Dataset
 **Dataset Source:** https://www.kaggle.com/datasets/arashnic/fitbit
+
 The analysis uses Fitbit/Fitabase smart-device usage data containing information such as:
 
 * Daily steps
