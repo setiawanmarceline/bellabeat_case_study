@@ -5,10 +5,10 @@
 **Role:** Data Analyst  
 **Company:** Bellabeat  
 **Primary Product:** Bellabeat Leaf  
-**Author:** [Your name — optional]  
-**Completion Date:** [Month Year — optional]  
+**Author:** Marceline Setiawan 
+**Completion Date:** September 2026 
 **Primary Tools:** Google BigQuery and SQL  
-**Visualization Tools:** [Enter the tool or tools actually used]
+**Visualization Tools:** Power BI 
 
 ---
 
@@ -279,9 +279,8 @@ Participants recorded substantially more Sedentary Minutes than minutes in the o
 
 Sedentary Minutes should be interpreted as a device-recorded activity classification. The data does not establish that participants continuously sat throughout every recorded sedentary minute.
 
-**[INSERT IMAGE 1: Sedentary Activity visualization here]**
-
-*Suggested image filename: `sedentary_activity.png`*
+<img width="887" height="1323" alt="image" src="https://github.com/user-attachments/assets/72e5faed-f52f-433e-ade3-6410ecd4ee64" />
+*sedentary_activity.png*
 
 ### Finding 2: Light Active Distance was the largest recorded active-distance category
 
@@ -291,9 +290,8 @@ Light Active Distance was the largest of the recorded active-distance categories
 
 This finding concerns the relative size of the recorded distance categories. It does not mean that the dataset directly identified the intensity of every individual step.
 
-**[INSERT IMAGE 2: Activity Distance visualization here]**
-
-*Suggested image filename: `activity_distance.png`*
+<img width="1158" height="651" alt="image" src="https://github.com/user-attachments/assets/af6f4944-5734-45f8-89a0-235cd5edd952" />
+*activity_distance.png*
 
 ### Finding 3: Active-distance measures were positively associated with Total Steps
 
@@ -311,9 +309,8 @@ Very Active Distance showed the strongest correlation with Total Steps, followed
 
 The strongest correlation does not mean that Very Active Distance was the largest distance category. Correlation strength and the amount recorded are different measures.
 
-**[INSERT IMAGE 3: Steps vs. Activity Distance visualization here]**
-
-*Suggested image filename: `steps_activity_distance.png`*
+<img width="1268" height="715" alt="{A99E3227-D40D-4ED9-8549-FD9BFA84E64B}" src="https://github.com/user-attachments/assets/6806bbda-42d8-4f08-af2a-dca4e5718555" />
+*steps_activity_distance.png*
 
 ### Finding 4: Sedentary Minutes had a weak negative relationship with Total Steps
 
@@ -335,9 +332,8 @@ Average daily steps differed across individual participants.
 
 A future marketing campaign could test whether different messages resonate with audiences exhibiting different recorded activity patterns.
 
-**[INSERT IMAGE 4: Average Daily Steps by Participant visualization here]**
-
-*Suggested image filename: `participant_variation.png`*
+<img width="477" height="604" alt="image" src="https://github.com/user-attachments/assets/f56ba3ce-9766-4bf0-abfb-5ca639f1a932" />
+*participant_variation.png*
 
 ### Additional observation: Weekday patterns
 
@@ -444,10 +440,7 @@ Used for:
 
 ### Visualization and spreadsheet tools
 
-**[Complete this section with the tools you actually used for this project.]**
-
-- Visualization tool: [Tool name and purpose, if used]
-- Spreadsheet tool: [Tool name and purpose, if used]
+- Visualization tool: Power BI
 
 ### GitHub
 
@@ -463,26 +456,6 @@ The project repository is intended to contain the following deliverables, subjec
 - **Presentation PDF:** A summary of the analysis and results.
 
 **Repository:** [Bellabeat Case Study on GitHub](https://github.com/setiawanmarceline/bellabeat_case_study)
-
-### Project file structure
-
-**[Update this section if your actual filenames or folders differ.]**
-
-```text
-bellabeat_case_study/
-├── README.md
-├── SQL/
-│   ├── [actual SQL script filename]
-│   ├── [actual SQL script filename]
-│   └── [actual SQL script filename]
-├── Presentation/
-│   └── Fitabase_Analysis_Result_Presentation.pdf
-└── Visualizations/
-    ├── sedentary_activity.png
-    ├── activity_distance.png
-    ├── steps_activity_distance.png
-    └── participant_variation.png
-```
 
 ## ⚠️ 12. Limitations
 
