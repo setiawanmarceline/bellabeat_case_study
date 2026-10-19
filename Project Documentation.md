@@ -2,12 +2,19 @@
 ## A Data Analytics Case Study and Marketing Recommendation
 
 **Project Type:** Google Data Analytics Professional Certificate Capstone  
+
 **Role:** Data Analyst  
+
 **Company:** Bellabeat  
+
 **Primary Product:** Bellabeat Leaf  
+
 **Author:** Marceline Setiawan 
+
 **Completion Date:** September 2026 
+
 **Primary Tools:** Google BigQuery and SQL  
+
 **Visualization Tools:** Power BI 
 
 ---
