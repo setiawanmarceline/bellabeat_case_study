@@ -7,8 +7,11 @@ This project analyzes Fitbit smart-device usage data to identify user activity p
 The analysis focuses on activity levels, daily steps, activity distance, and differences in activity patterns between participants. The findings are then applied to a Bellabeat product to develop a marketing recommendation.
 
 **Project type:** Google Data Analytics Capstone Project
+
 **Role:** Data Analyst
+
 **Client:** Bellabeat
+
 **Tools:** SQL (BigQuery), Power BI
 
 ---
