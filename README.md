@@ -9,7 +9,7 @@ The analysis focuses on activity levels, daily steps, activity distance, and dif
 **Project type:** Google Data Analytics Capstone Project
 **Role:** Data Analyst
 **Client:** Bellabeat
-**Tools:** SQL (BigQuery), Power BI / Tableau, Excel / Google Sheets
+**Tools:** SQL (BigQuery), Power BI
 
 ---
 
@@ -198,6 +198,10 @@ The analysis does not establish that this strategy will increase sales; campaign
 bellabeat-case-study/
 │
 ├── README.md
+│
+├── Project Documentation.md
+│
+├── SOW Bellabeat Marketing Project.pdf
 │
 ├── SQL/
 │   ├── data_cleaning.sql
